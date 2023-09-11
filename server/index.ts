@@ -36,7 +36,7 @@ const server = Bun.serve({ // Bun in uppercase
       if (url.pathname == "/api/perros") {
         const { name } = await req.json()
         console.log(name)
-        db.query(`insert into testing (name) values (?)`, [name]).get()
+        db.query(`insert into testing (name) values ( $name )`).get({$name: name})
         console.log("post made")
         return new Response(`Inserted ${name} on table`)
       }
