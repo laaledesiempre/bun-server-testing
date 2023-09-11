@@ -19,5 +19,5 @@ if option == "1":
 
 elif option == "2":
     requested = requests.get(url)
-    print(requested)
+    print(requested.json())
 

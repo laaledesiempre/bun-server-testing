@@ -27,8 +27,8 @@ const server = Bun.serve({ // Bun in uppercase
       if (url.pathname == "/api/perros") {
         const database = db.prepare(`select * from testing`).all()
         console.log("get made")
-        console.log(database)
-        //return new Response(JSON.parse(database))
+        const parsedData = JSON.stringify(database)
+        return new Response(parsedData)
       }
     }
     // POST 
@@ -36,7 +36,7 @@ const server = Bun.serve({ // Bun in uppercase
       if (url.pathname == "/api/perros") {
         const { name } = await req.json()
         console.log(name)
-        db.query(`insert into testing (name) values ( $name )`).get({$name: name})
+        db.query(`insert into testing (name) values ( $name )`).get({ $name: name })
         console.log("post made")
         return new Response(`Inserted ${name} on table`)
       }
