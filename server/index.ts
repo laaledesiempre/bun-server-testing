@@ -6,9 +6,9 @@ const db = new Database(":memory:");
 
 const PORT = 3000
 
-db.query(`create table testing (
-    id interger primary key not null,
-    name text not null);`
+db.query(`CREATE TABLE IF NOT EXISTS testing(
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL);`
 )
 
 // Server declaration
