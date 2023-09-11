@@ -2,14 +2,14 @@
 
 import { Database } from 'bun:sqlite'
 
-const db = new Database(":memory:");
+const db = new Database(":memory:");  // Creates a on memory database that ends with process
 
 const PORT = 3000
 
 db.query(`CREATE TABLE IF NOT EXISTS testing(
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL);`
-).get()
+).run() // run method is necesary, without this it doesnt excecute without run/get/all
 
 // Server declaration
 
@@ -21,29 +21,32 @@ const server = Bun.serve({ // Bun in uppercase
   async fetch(req) {
 
     const url = new URL(req.url) // URL parser
-    console.log("request get is a " + req.method)
+
+    // This way you can see request method
+    console.log("new request, Request methos is :" + req.method)
+
+    // You can route with nested if statements
     // GET
     if (req.method == "GET") {
-      if (url.pathname == "/api/perros") {
-        const database = db.prepare(`select * from testing`).all()
-        console.log("get made")
-        const parsedData = JSON.stringify(database)
-        return new Response(parsedData)
+
+      if (url.pathname == "/api/perros") { // Endpoints declaration 
+        const database = db.prepare(`select * from testing`).all() // Gets database content
+        const parsedData = JSON.stringify(database) // turn into json
+        return new Response(parsedData) // and return a Response object
       }
     }
     // POST 
     else if (req.method == "POST") {
+
       if (url.pathname == "/api/perros") {
         const { name } = await req.json()
-        console.log(name)
-        db.query(`insert into testing (name) values ( $name )`).get({ $name: name })
-        console.log("post made")
+        db.query(`insert into testing (name) values ( $name )`).run({ $name: name }) // This is something strange, i feel strange with this syntax but, not bad. 
         return new Response(`Inserted ${name} on table`)
       }
     }
     // 404
     else {
-      return new Response(`404 ${url.pathname} not found on server`, { status: 404 })
+      return new Response(`404 ${url.pathname} not found on server`, { status: 404 }) // This looks really fine on browser
     }
   }
 }
