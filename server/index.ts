@@ -9,7 +9,7 @@ const PORT = 3000
 db.query(`CREATE TABLE IF NOT EXISTS testing(
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL);`
-)
+).get()
 
 // Server declaration
 
@@ -25,7 +25,7 @@ const server = Bun.serve({ // Bun in uppercase
     // GET
     if (req.method == "GET") {
       if (url.pathname == "/api/perros") {
-        const database = db.query(`select * from testing`)
+        const database = db.query(`select * from testing`).all()
         console.log("get made")
         return new Response(JSON.parse(database))
       }
