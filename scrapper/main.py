@@ -34,12 +34,14 @@ while True:
             requests.post(url,json=data)
 
         print(f"{amout_of_request} Request made!")
+        input("PRESS ENTER TO CONTINUE")
 
     # Get
     elif option == "2":
         requested = requests.get(url)
         for value in requested.json():
             print(value)
+        input("PRESS ENTER TO CONTINUE")
     
     # Exit
     elif option.lower() == "s":

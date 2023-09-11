@@ -23,7 +23,7 @@ const server = Bun.serve({ // Bun in uppercase
     const url = new URL(req.url) // URL parser
 
     // This way you can see request method
-    console.log("new request, Request methos is :" + req.method)
+    console.log("new request, Request method is :" + req.method)
 
     // You can route with nested if statements
     // GET
