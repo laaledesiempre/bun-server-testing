@@ -9,7 +9,7 @@ db.query(`create table testing (
     name text not null);`
 )
 
-serve= Bun.serve({ // Bun in uppercase
+const server= Bun.serve({ // Bun in uppercase
     port: 3000,
     fetch(req) {
 
