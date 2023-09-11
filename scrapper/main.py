@@ -14,7 +14,7 @@ option = input("Option selected")
 if option == "1":
     for _ in range(100):
         data = {"name" : random.choice(perros_names)}
-        requests.post(url, json=data)
+        requests.post(url,json=data)
     print("100 Request made!")
 
 elif option == "2":

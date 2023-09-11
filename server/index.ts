@@ -18,22 +18,24 @@ const server = Bun.serve({ // Bun in uppercase
 
   // Server routing tree
 
-  fetch(req) {
+  async fetch(req) {
 
     const url = new URL(req.url) // URL parser
     console.log("request get is a " + req.method)
     // GET
     if (req.method == "GET") {
       if (url.pathname == "/api/perros") {
-        const database = db.query(`select * from testing`).all()
+        const database = db.prepare(`select * from testing`).all()
         console.log("get made")
-        return new Response(JSON.parse(database))
+        console.log(database)
+        //return new Response(JSON.parse(database))
       }
     }
     // POST 
     else if (req.method == "POST") {
       if (url.pathname == "/api/perros") {
-        const { name } = req.body
+        const { name } = await req.json()
+        console.log(name)
         db.query(`insert into testing (name) values (?)`, [name])
         console.log("post made")
         return new Response(`Inserted ${name} on table`)
