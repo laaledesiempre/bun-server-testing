@@ -1,5 +1,6 @@
 // console.log("Hello via Bun!"); --> default message on init
 
+import { ServeOptions } from 'bun';
 import { Database } from 'bun:sqlite'
 
 const db = new Database(":memory:");  // Creates a on memory database that ends with process
@@ -13,12 +14,12 @@ db.query(`CREATE TABLE IF NOT EXISTS testing(
 
 // Server declaration
 
-const server = Bun.serve({ // Bun in uppercase
+Bun.serve({ // Bun in uppercase
   port: PORT,
 
   // Server routing tree
 
-  async fetch(req) {
+  async fetch(req: Request) {
 
     const url = new URL(req.url) // URL parser
 
@@ -49,7 +50,7 @@ const server = Bun.serve({ // Bun in uppercase
       return new Response(`404 ${url.pathname} not found on server`, { status: 404 }) // This looks really fine on browser
     }
   }
-}
+} as ServeOptions
 )
 
 // Default server message
